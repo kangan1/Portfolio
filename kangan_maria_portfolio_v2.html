@@ -1,0 +1,544 @@
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --p:#a78bfa;--b:#38bdf8;--t:#34d399;--am:#fbbf24;--pk:#f472b6;
+  --bg:#070710;--bg2:#0e0e1c;--bg3:#13132a;
+  --tx:#e2e8f0;--tx2:#94a3b8;--tx3:#475569;
+  --bd:rgba(255,255,255,0.07);--bdhov:rgba(255,255,255,0.13);
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx);font-family:var(--font-sans,system-ui);overflow-x:hidden;line-height:1.6}
+
+#hero{position:relative;width:100%;height:460px;overflow:hidden}
+#bgc{position:absolute;inset:0;width:100%;height:100%}
+.hero-inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;z-index:2;pointer-events:none;padding:1rem}
+.avatar{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,rgba(167,139,250,0.3),rgba(56,189,248,0.3));border:1.5px solid rgba(167,139,250,0.4);display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:500;color:var(--p);margin-bottom:1rem;letter-spacing:0.03em}
+.h-name{font-size:clamp(2rem,5vw,3.2rem);font-weight:500;letter-spacing:-0.02em;background:linear-gradient(135deg,#c4b5fd,#38bdf8,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.h-title{font-size:0.85rem;color:var(--tx2);margin-top:0.4rem;letter-spacing:0.1em;text-transform:uppercase}
+.h-loc{font-size:0.78rem;color:var(--tx3);margin-top:0.25rem}
+.h-cta{pointer-events:all;margin-top:1.4rem;display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.btn{padding:7px 18px;border-radius:9999px;font-size:0.78rem;cursor:pointer;border:0.5px solid;transition:all 0.18s;background:transparent;font-family:inherit}
+.btn-v{border-color:rgba(167,139,250,0.4);color:var(--p)}.btn-v:hover{background:rgba(167,139,250,0.14);border-color:var(--p)}
+.btn-b{border-color:rgba(56,189,248,0.4);color:var(--b)}.btn-b:hover{background:rgba(56,189,248,0.14);border-color:var(--b)}
+.btn-t{border-color:rgba(52,211,153,0.35);color:var(--t)}.btn-t:hover{background:rgba(52,211,153,0.12);border-color:var(--t)}
+
+nav{background:rgba(7,7,16,0.88);backdrop-filter:blur(14px);border-bottom:0.5px solid var(--bd);display:flex;align-items:center;justify-content:space-between;padding:0.7rem 1.8rem;position:sticky;top:0;z-index:50}
+.nav-logo{display:flex;align-items:center;gap:8px}
+.logo-dot{width:8px;height:8px;border-radius:50%;background:var(--p);display:inline-block}
+.logo-text{font-size:0.9rem;font-weight:500;color:var(--tx);letter-spacing:0.02em}
+.nav-links{display:flex;gap:1.4rem}
+.nav-links a{font-size:0.79rem;color:var(--tx3);text-decoration:none;cursor:pointer;transition:color 0.18s;letter-spacing:0.01em}
+.nav-links a:hover{color:var(--tx)}
+
+.wrap{max-width:920px;margin:0 auto;padding:3rem 1.5rem}
+.sec-tag{font-size:0.68rem;text-transform:uppercase;letter-spacing:0.15em;color:var(--b);margin-bottom:0.4rem;display:flex;align-items:center;gap:6px}
+.sec-tag::before{content:'';display:inline-block;width:16px;height:1px;background:var(--b)}
+.sec-h{font-size:1.65rem;font-weight:500;color:var(--tx);margin-bottom:2rem}
+
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:2.5rem}
+.stat{flex:1;min-width:110px;background:var(--bg2);border:0.5px solid var(--bd);border-radius:14px;padding:1rem;text-align:center;transition:border-color 0.2s}
+.stat:hover{border-color:var(--bdhov)}
+.stat-n{font-size:1.8rem;font-weight:500;background:linear-gradient(135deg,var(--p),var(--b));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.stat-l{font-size:0.7rem;color:var(--tx3);margin-top:2px;line-height:1.3}
+
+.skills-wrap{display:flex;flex-wrap:wrap;gap:7px;margin-top:1.5rem}
+.pill{padding:5px 13px;border-radius:9999px;font-size:0.76rem;border:0.5px solid;cursor:default;transition:transform 0.15s}
+.pill:hover{transform:translateY(-2px)}
+.pv{background:rgba(167,139,250,0.07);border-color:rgba(167,139,250,0.28);color:#c4b5fd}
+.pb{background:rgba(56,189,248,0.07);border-color:rgba(56,189,248,0.28);color:#7dd3fc}
+.pt{background:rgba(52,211,153,0.07);border-color:rgba(52,211,153,0.25);color:#6ee7b7}
+.pa{background:rgba(251,191,36,0.07);border-color:rgba(251,191,36,0.25);color:#fcd34d}
+.pp{background:rgba(244,114,182,0.07);border-color:rgba(244,114,182,0.25);color:#f9a8d4}
+
+.tl{display:flex;flex-direction:column;gap:0}
+.tl-item{display:flex;gap:1.2rem}
+.tl-spine{display:flex;flex-direction:column;align-items:center;width:24px;flex-shrink:0}
+.tl-dot{width:10px;height:10px;border-radius:50%;border:2px solid;flex-shrink:0;margin-top:4px}
+.tl-line{flex:1;width:1px;background:linear-gradient(to bottom,rgba(255,255,255,0.1),transparent);margin-top:4px}
+.tl-body{flex:1;padding-bottom:2.2rem}
+.tl-card{background:var(--bg2);border:0.5px solid var(--bd);border-radius:14px;padding:1.1rem 1.25rem;transition:background 0.2s,border-color 0.2s}
+.tl-card:hover{background:var(--bg3);border-color:var(--bdhov)}
+.tl-head{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:4px;margin-bottom:3px}
+.tl-role{font-size:0.95rem;font-weight:500;color:var(--tx)}
+.tl-date{font-size:0.72rem;color:var(--tx3);white-space:nowrap}
+.tl-co{font-size:0.8rem;color:var(--tx2);margin-bottom:0.6rem;display:flex;align-items:center;gap:5px}
+.tl-tag{font-size:0.65rem;padding:2px 8px;border-radius:9999px;background:rgba(167,139,250,0.1);color:#c4b5fd;border:0.5px solid rgba(167,139,250,0.2)}
+.bullets{list-style:none;display:flex;flex-direction:column;gap:4px}
+.bullets li{font-size:0.8rem;color:var(--tx2);padding-left:0.9rem;position:relative;line-height:1.55}
+.bullets li::before{content:'›';position:absolute;left:0;color:var(--tx3)}
+
+.metric-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:0.8rem}
+.metric{display:flex;align-items:center;gap:5px;font-size:0.72rem;color:var(--t);background:rgba(52,211,153,0.07);border:0.5px solid rgba(52,211,153,0.2);border-radius:9999px;padding:3px 10px}
+
+.proj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.proj{background:var(--bg2);border:0.5px solid var(--bd);border-radius:14px;padding:1.25rem;transition:all 0.2s;position:relative;overflow:hidden}
+.proj::after{content:'';position:absolute;top:0;left:0;right:0;height:1.5px;background:linear-gradient(90deg,var(--p),var(--b),var(--t));opacity:0;transition:opacity 0.2s}
+.proj:hover{background:var(--bg3);border-color:var(--bdhov);transform:translateY(-2px)}
+.proj:hover::after{opacity:1}
+.proj-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:0.8rem;font-size:14px}
+.proj-name{font-size:0.93rem;font-weight:500;color:var(--tx);margin-bottom:3px}
+.proj-tech{font-size:0.7rem;color:var(--b);margin-bottom:0.5rem;font-family:var(--font-mono,monospace)}
+.proj-desc{font-size:0.79rem;color:var(--tx2);line-height:1.55}
+.proj-metric{font-size:0.72rem;color:var(--t);margin-top:0.6rem;display:flex;align-items:center;gap:4px}
+
+.pub-list{display:flex;flex-direction:column;gap:10px}
+.pub{background:var(--bg2);border:0.5px solid var(--bd);border-radius:14px;padding:1.1rem 1.25rem;transition:all 0.2s;display:flex;gap:12px;align-items:flex-start}
+.pub:hover{background:var(--bg3);border-color:var(--bdhov)}
+.pub-badge{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px}
+.pub-info{flex:1;min-width:0}
+.pub-title{font-size:0.85rem;font-weight:500;color:var(--tx);margin-bottom:3px;line-height:1.4}
+.pub-journal{font-size:0.75rem;color:var(--tx3);margin-bottom:6px}
+.pub-link{display:inline-flex;align-items:center;gap:4px;font-size:0.74rem;color:var(--b);text-decoration:none;border:0.5px solid rgba(56,189,248,0.25);border-radius:9999px;padding:3px 10px;transition:all 0.18s}
+.pub-link:hover{background:rgba(56,189,248,0.1);border-color:rgba(56,189,248,0.5)}
+.pub-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.pub-tag{font-size:0.68rem;padding:2px 8px;border-radius:9999px}
+
+.cert-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:0.5rem}
+.cert{background:var(--bg2);border:0.5px solid var(--bd);border-radius:12px;padding:0.9rem 1rem;display:flex;align-items:center;gap:8px;transition:all 0.2s}
+.cert:hover{border-color:var(--bdhov);background:var(--bg3)}
+.cert-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.cert-text{font-size:0.78rem;color:var(--tx2)}
+
+.edu-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.edu-card{background:var(--bg2);border:0.5px solid var(--bd);border-radius:14px;padding:1.1rem 1.25rem;transition:all 0.2s}
+.edu-card:hover{background:var(--bg3);border-color:var(--bdhov)}
+.edu-deg{font-size:0.92rem;font-weight:500;color:var(--tx);margin-bottom:3px}
+.edu-school{font-size:0.79rem;color:var(--tx2);margin-bottom:5px}
+.gpa-badge{display:inline-flex;align-items:center;gap:4px;font-size:0.72rem;color:var(--am);background:rgba(251,191,36,0.08);border:0.5px solid rgba(251,191,36,0.22);border-radius:9999px;padding:2px 9px}
+
+.contact-section{max-width:920px;margin:0 auto;padding:0 1.5rem 4rem}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.5rem}
+.contact-card{background:var(--bg2);border:0.5px solid var(--bd);border-radius:14px;padding:1.1rem 1.25rem;display:flex;align-items:center;gap:10px;transition:all 0.2s}
+.contact-card:hover{background:var(--bg3);border-color:var(--bdhov)}
+.c-icon{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.c-label{font-size:0.7rem;color:var(--tx3);margin-bottom:1px}
+.c-val{font-size:0.82rem;color:var(--tx)}
+.social-row{display:flex;gap:10px;flex-wrap:wrap}
+.soc-btn{display:flex;align-items:center;gap:6px;padding:9px 18px;border-radius:12px;font-size:0.82rem;cursor:pointer;border:0.5px solid;background:transparent;font-family:inherit;transition:all 0.18s}
+
+footer{text-align:center;padding:1.5rem;font-size:0.72rem;color:var(--tx3);border-top:0.5px solid var(--bd)}
+
+@media(max-width:560px){
+  .edu-grid,.contact-grid{grid-template-columns:1fr}
+  nav{padding:0.7rem 1rem}
+  .nav-links{gap:1rem}
+  .stats{gap:8px}
+}
+</style>
+
+<div style="background:var(--bg);min-height:100vh">
+
+<nav>
+  <div class="nav-logo">
+    <span class="logo-dot"></span>
+    <span class="logo-text">Kangan Maria</span>
+  </div>
+  <div class="nav-links">
+    <a onclick="document.getElementById('skills').scrollIntoView({behavior:'smooth'})">Skills</a>
+    <a onclick="document.getElementById('exp').scrollIntoView({behavior:'smooth'})">Experience</a>
+    <a onclick="document.getElementById('projects').scrollIntoView({behavior:'smooth'})">Projects</a>
+    <a onclick="document.getElementById('pubs').scrollIntoView({behavior:'smooth'})">Publications</a>
+    <a onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Contact</a>
+  </div>
+</nav>
+
+<div id="hero">
+  <canvas id="bgc"></canvas>
+  <div class="hero-inner">
+    <div class="avatar">KM</div>
+    <div class="h-name">Kangan Maria</div>
+    <div class="h-title">Data Engineer · AI Specialist · Research Scientist</div>
+    <div class="h-loc">Bangalore, India &nbsp;·&nbsp; 4+ years experience &nbsp;·&nbsp; 3 publications</div>
+    <div class="h-cta">
+      <button class="btn btn-b" onclick="window.open('mailto:mariakangan7@gmail.com')">Get in touch</button>
+      <button class="btn btn-v" onclick="window.open('https://github.com/kangan1','_blank')">GitHub</button>
+      <button class="btn btn-v" onclick="window.open('https://linkedin.com/in/kangan-maria-7964b81a4','_blank')">LinkedIn</button>
+      <button class="btn btn-t" onclick="document.getElementById('pubs').scrollIntoView({behavior:'smooth'})">Publications</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap" id="skills">
+  <div class="sec-tag">Overview</div>
+  <div class="sec-h">At a glance</div>
+  <div class="stats">
+    <div class="stat"><div class="stat-n">4+</div><div class="stat-l">Years of experience</div></div>
+    <div class="stat"><div class="stat-n">95%</div><div class="stat-l">Model accuracy</div></div>
+    <div class="stat"><div class="stat-n">500K+</div><div class="stat-l">Records processed</div></div>
+    <div class="stat"><div class="stat-n">3</div><div class="stat-l">Publications</div></div>
+    <div class="stat"><div class="stat-n">60%</div><div class="stat-l">Manual effort reduced</div></div>
+  </div>
+  <div class="sec-tag" style="margin-top:2rem">Skills</div>
+  <div class="sec-h">Technical toolkit</div>
+  <div class="skills-wrap">
+    <span class="pill pv">Python</span>
+    <span class="pill pv">PySpark</span>
+    <span class="pill pv">Apache Spark</span>
+    <span class="pill pv">TensorFlow</span>
+    <span class="pill pb">AWS S3</span>
+    <span class="pill pb">EC2</span>
+    <span class="pill pb">Athena</span>
+    <span class="pill pb">REST APIs</span>
+    <span class="pill pt">Apache Airflow</span>
+    <span class="pill pt">ETL Pipelines</span>
+    <span class="pill pt">Cron Jobs</span>
+    <span class="pill pa">NLP</span>
+    <span class="pill pa">RAG</span>
+    <span class="pill pa">Survival Analysis</span>
+    <span class="pill pa">Feature Engineering</span>
+    <span class="pill pp">SQL</span>
+    <span class="pill pp">MySQL</span>
+    <span class="pill pp">OpenCV</span>
+  </div>
+</div>
+
+<div class="wrap" id="exp">
+  <div class="sec-tag">Career</div>
+  <div class="sec-h">Work experience</div>
+  <div class="tl">
+
+    <div class="tl-item">
+      <div class="tl-spine">
+        <div class="tl-dot" style="border-color:var(--p)"></div>
+        <div class="tl-line"></div>
+      </div>
+      <div class="tl-body">
+        <div class="tl-card">
+          <div class="tl-head">
+            <div class="tl-role">Senior Software Engineer — Data &amp; AI</div>
+            <div class="tl-date">Sep 2025 – Present</div>
+          </div>
+          <div class="tl-co">ACL Digital <span style="color:var(--tx3)">·</span> Client: Eli Lilly <span style="color:var(--tx3)">·</span> Bangalore <span class="tl-tag">Current</span></div>
+          <ul class="bullets">
+            <li>Architected AI-powered document extraction models, automating retrieval from unstructured documents.</li>
+            <li>Engineered scalable AWS (S3, EC2) data pipelines integrated with RESTful APIs.</li>
+          </ul>
+          <div class="metric-row">
+            <span class="metric">60% manual effort reduced</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-spine">
+        <div class="tl-dot" style="border-color:var(--b)"></div>
+        <div class="tl-line"></div>
+      </div>
+      <div class="tl-body">
+        <div class="tl-card">
+          <div class="tl-head">
+            <div class="tl-role">Research Scientist</div>
+            <div class="tl-date">Jul 2023 – Nov 2024</div>
+          </div>
+          <div class="tl-co">All India Institute of Medical Sciences (AIIMS) <span style="color:var(--tx3)">·</span> Rishikesh</div>
+          <ul class="bullets">
+            <li>Developed data transformation pipelines improving overall data quality by 95%, enhancing accuracy of clinical prediction models.</li>
+            <li>Applied survival analysis on cardiovascular patient data to identify key mortality risk factors.</li>
+            <li>Contributed to 2 peer-reviewed publications on healthcare data and longitudinal survival modelling.</li>
+          </ul>
+          <div class="metric-row">
+            <span class="metric">95% data quality</span>
+            <span class="metric">35% faster processing</span>
+            <span class="metric">2 publications</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-spine">
+        <div class="tl-dot" style="border-color:var(--t)"></div>
+        <div class="tl-line"></div>
+      </div>
+      <div class="tl-body">
+        <div class="tl-card">
+          <div class="tl-head">
+            <div class="tl-role">Data Scientist</div>
+            <div class="tl-date">Jul 2021 – Jun 2023</div>
+          </div>
+          <div class="tl-co">Velai, Inc <span style="color:var(--tx3)">·</span> Remote</div>
+          <ul class="bullets">
+            <li>Achieved seamless S3 bucket integration for scalable large dataset management with zero downtime during peak usage.</li>
+            <li>Automated workflows with Airflow and Cron Jobs; led code reviews for 5 engineers.</li>
+          </ul>
+          <div class="metric-row">
+            <span class="metric">15+ hrs/week saved</span>
+            <span class="metric">30% fewer bugs</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-spine">
+        <div class="tl-dot" style="border-color:var(--am)"></div>
+      </div>
+      <div class="tl-body">
+        <div class="tl-card">
+          <div class="tl-head">
+            <div class="tl-role">Machine Learning Intern</div>
+            <div class="tl-date">Oct 2020 – Apr 2021</div>
+          </div>
+          <div class="tl-co">Astey Technologies <span style="color:var(--tx3)">·</span> Remote</div>
+          <ul class="bullets">
+            <li>Built real-time yoga posture classification model using SVM, TensorFlow, and OpenCV.</li>
+            <li>Reduced inference latency by 25% via optimised preprocessing.</li>
+          </ul>
+          <div class="metric-row">
+            <span class="metric">87% accuracy</span>
+            <span class="metric">25% less latency</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="wrap" id="projects">
+  <div class="sec-tag">Work</div>
+  <div class="sec-h">Projects</div>
+  <div class="proj-grid">
+
+    <div class="proj">
+      <div class="proj-icon" style="background:rgba(167,139,250,0.12);color:#c4b5fd">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </div>
+      <div class="proj-name">Zomato ETL Pipeline</div>
+      <div class="proj-tech">PySpark · AWS S3 · Spark</div>
+      <div class="proj-desc">End-to-end ETL processing 500K+ restaurant records with automated transformation and real-time BI dashboard integration.</div>
+      <div class="proj-metric">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        70% faster transformation
+      </div>
+    </div>
+
+    <div class="proj">
+      <div class="proj-icon" style="background:rgba(56,189,248,0.12);color:#7dd3fc">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </div>
+      <div class="proj-name">InsureGenie</div>
+      <div class="proj-tech">Python · NLP · RAG · LLM</div>
+      <div class="proj-desc">AI-powered insurance Q&A tool using Retrieval-Augmented Generation for natural language policy comprehension.</div>
+      <div class="proj-metric">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        50% faster comprehension
+      </div>
+    </div>
+
+    <div class="proj">
+      <div class="proj-icon" style="background:rgba(52,211,153,0.12);color:#6ee7b7">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+      </div>
+      <div class="proj-name">Clinical Prediction Models</div>
+      <div class="proj-tech">Python · Survival Analysis · Pandas</div>
+      <div class="proj-desc">Cardiovascular patient data analysis with survival modelling to identify mortality risk factors at AIIMS Rishikesh.</div>
+      <div class="proj-metric">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        95% model accuracy
+      </div>
+    </div>
+
+    <div class="proj">
+      <div class="proj-icon" style="background:rgba(251,191,36,0.1);color:#fcd34d">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+      </div>
+      <div class="proj-name">Yoga Pose Classifier</div>
+      <div class="proj-tech">TensorFlow · OpenCV · SVM</div>
+      <div class="proj-desc">Real-time body posture classification with computer vision achieving high accuracy across diverse yoga positions.</div>
+      <div class="proj-metric">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        87% accuracy · 25% less latency
+      </div>
+    </div>
+
+    <div class="proj">
+      <div class="proj-icon" style="background:rgba(244,114,182,0.1);color:#f9a8d4">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+      </div>
+      <div class="proj-name">AI Document Extraction</div>
+      <div class="proj-tech">Python · AWS · NLP · REST APIs</div>
+      <div class="proj-desc">Pharma document intelligence pipeline for Eli Lilly — automated retrieval from unstructured clinical and regulatory documents.</div>
+      <div class="proj-metric">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        60% manual effort reduced
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="wrap" id="pubs">
+  <div class="sec-tag">Research</div>
+  <div class="sec-h">Publications</div>
+  <div class="pub-list">
+
+    <div class="pub">
+      <div class="pub-badge" style="background:rgba(56,189,248,0.12);color:#7dd3fc">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      </div>
+      <div class="pub-info">
+        <div class="pub-title">COVID-19 impact on healthcare systems — epidemiological and data-driven analysis</div>
+        <div class="pub-journal">PLOS Global Public Health · 2023–2024</div>
+        <a class="pub-link" href="https://journals.plos.org/globalpublichealth/" target="_blank">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          View on PLOS
+        </a>
+        <div class="pub-tags">
+          <span class="pub-tag" style="background:rgba(56,189,248,0.08);color:#7dd3fc;border:0.5px solid rgba(56,189,248,0.2)">COVID-19</span>
+          <span class="pub-tag" style="background:rgba(52,211,153,0.08);color:#6ee7b7;border:0.5px solid rgba(52,211,153,0.2)">Healthcare</span>
+          <span class="pub-tag" style="background:rgba(167,139,250,0.08);color:#c4b5fd;border:0.5px solid rgba(167,139,250,0.2)">Epidemiology</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="pub">
+      <div class="pub-badge" style="background:rgba(52,211,153,0.12);color:#6ee7b7">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      </div>
+      <div class="pub-info">
+        <div class="pub-title">LongSurv: longitudinal survival modelling for cardiovascular outcomes</div>
+        <div class="pub-journal">Survival Analysis Research · AIIMS Rishikesh · 2024</div>
+        <a class="pub-link" href="https://scholar.google.com/scholar?q=LongSurv+longitudinal+survival+modelling" target="_blank">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Search on Google Scholar
+        </a>
+        <div class="pub-tags">
+          <span class="pub-tag" style="background:rgba(52,211,153,0.08);color:#6ee7b7;border:0.5px solid rgba(52,211,153,0.2)">Survival Analysis</span>
+          <span class="pub-tag" style="background:rgba(251,191,36,0.08);color:#fcd34d;border:0.5px solid rgba(251,191,36,0.2)">Cardiovascular</span>
+          <span class="pub-tag" style="background:rgba(167,139,250,0.08);color:#c4b5fd;border:0.5px solid rgba(167,139,250,0.2)">Longitudinal</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="pub">
+      <div class="pub-badge" style="background:rgba(244,114,182,0.12);color:#f9a8d4">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      </div>
+      <div class="pub-info">
+        <div class="pub-title">NLP-based text classification and information extraction — applied research</div>
+        <div class="pub-journal">Everant Engineering &amp; Technology Journal (ETJ) · 2023</div>
+        <a class="pub-link" href="https://everant.org/index.php/etj" target="_blank">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          View on Everant ETJ
+        </a>
+        <div class="pub-tags">
+          <span class="pub-tag" style="background:rgba(244,114,182,0.08);color:#f9a8d4;border:0.5px solid rgba(244,114,182,0.2)">NLP</span>
+          <span class="pub-tag" style="background:rgba(56,189,248,0.08);color:#7dd3fc;border:0.5px solid rgba(56,189,248,0.2)">Text Classification</span>
+          <span class="pub-tag" style="background:rgba(52,211,153,0.08);color:#6ee7b7;border:0.5px solid rgba(52,211,153,0.2)">Information Extraction</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="sec-tag">Education</div>
+  <div class="sec-h">Academic background</div>
+  <div class="edu-grid">
+    <div class="edu-card">
+      <div class="edu-deg">MCA — Master of Computer Applications</div>
+      <div class="edu-school">Vellore Institute of Technology · 2019–2021</div>
+      <span class="gpa-badge">GPA 8.61 / 10</span>
+    </div>
+    <div class="edu-card">
+      <div class="edu-deg">BCA — Bachelor of Computer Applications</div>
+      <div class="edu-school">Khalsa College for Women · 2016–2019</div>
+      <span class="gpa-badge">GPA 7.4 / 10</span>
+    </div>
+  </div>
+  <div class="sec-tag" style="margin-top:2.5rem">Certifications</div>
+  <div class="cert-grid">
+    <div class="cert"><span class="cert-dot" style="background:var(--p)"></span><span class="cert-text">Ultimate Big Data Master's Program</span></div>
+    <div class="cert"><span class="cert-dot" style="background:var(--b)"></span><span class="cert-text">Machine Learning with Python</span></div>
+    <div class="cert"><span class="cert-dot" style="background:var(--t)"></span><span class="cert-text">Cloud Computing Basics (Cloud 101)</span></div>
+  </div>
+</div>
+
+<div class="contact-section" id="contact">
+  <div class="sec-tag">Contact</div>
+  <div class="sec-h">Let's connect</div>
+  <div class="contact-grid">
+    <div class="contact-card">
+      <div class="c-icon" style="background:rgba(56,189,248,0.1);color:#7dd3fc">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </div>
+      <div><div class="c-label">Email</div><div class="c-val">mariakangan7@gmail.com</div></div>
+    </div>
+    <div class="contact-card">
+      <div class="c-icon" style="background:rgba(52,211,153,0.1);color:#6ee7b7">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.56 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      </div>
+      <div><div class="c-label">Phone</div><div class="c-val">+91-7888659721</div></div>
+    </div>
+    <div class="contact-card">
+      <div class="c-icon" style="background:rgba(167,139,250,0.1);color:#c4b5fd">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      </div>
+      <div><div class="c-label">Location</div><div class="c-val">Bangalore, India</div></div>
+    </div>
+    <div class="contact-card">
+      <div class="c-icon" style="background:rgba(251,191,36,0.1);color:#fcd34d">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+      </div>
+      <div><div class="c-label">GitHub</div><div class="c-val">github.com/kangan1</div></div>
+    </div>
+  </div>
+  <div class="social-row">
+    <button class="soc-btn" style="border-color:rgba(56,189,248,0.3);color:var(--b)" onclick="window.open('https://linkedin.com/in/kangan-maria-7964b81a4','_blank')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+      LinkedIn
+    </button>
+    <button class="soc-btn" style="border-color:rgba(167,139,250,0.3);color:var(--p)" onclick="window.open('https://github.com/kangan1','_blank')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+      GitHub
+    </button>
+    <button class="soc-btn" style="border-color:rgba(52,211,153,0.3);color:var(--t)" onclick="window.open('mailto:mariakangan7@gmail.com')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      Email me
+    </button>
+    <button class="soc-btn" style="border-color:rgba(244,114,182,0.3);color:var(--pk)" onclick="document.getElementById('pubs').scrollIntoView({behavior:'smooth'})">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      Publications
+    </button>
+  </div>
+</div>
+
+<footer>Crafted with care &nbsp;·&nbsp; Kangan Maria &nbsp;·&nbsp; 2025 &nbsp;·&nbsp; Data Engineer &amp; Research Scientist</footer>
+
+</div>
+
+<script>
+const C=document.getElementById('bgc'),ctx=C.getContext('2d');
+let W,H,pts=[],mouse={x:-999,y:-999};
+const COLS=['#a78bfa','#38bdf8','#34d399','#fbbf24','#f472b6'];
+function resize(){W=C.width=C.offsetWidth;H=C.height=C.offsetHeight}
+function mkP(){return{x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.35,vy:(Math.random()-.5)*.35,r:Math.random()*2+.6,c:COLS[Math.floor(Math.random()*COLS.length)],a:Math.random()*.5+.2}}
+function init(){resize();pts=Array.from({length:100},mkP)}
+function draw(){
+  ctx.clearRect(0,0,W,H);ctx.fillStyle='#070710';ctx.fillRect(0,0,W,H);
+  for(let i=0;i<pts.length;i++){
+    const p=pts[i];
+    const dx=mouse.x-p.x,dy=mouse.y-p.y,d=Math.sqrt(dx*dx+dy*dy);
+    if(d<110){p.x-=dx*.015;p.y-=dy*.015}
+    p.x+=p.vx;p.y+=p.vy;
+    if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;
+    for(let j=i+1;j<pts.length;j++){
+      const q=pts[j],ex=p.x-q.x,ey=p.y-q.y,dd=Math.sqrt(ex*ex+ey*ey);
+      if(dd<95){
+        ctx.beginPath();ctx.strokeStyle=p.c;ctx.globalAlpha=(1-dd/95)*.1;
+        ctx.lineWidth=.5;ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.stroke();ctx.globalAlpha=1;
+      }
+    }
+    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=p.c;ctx.globalAlpha=p.a;ctx.fill();ctx.globalAlpha=1;
+  }
+  requestAnimationFrame(draw);
+}
+C.addEventListener('mousemove',e=>{const r=C.getBoundingClientRect();mouse.x=e.clientX-r.left;mouse.y=e.clientY-r.top});
+C.addEventListener('mouseleave',()=>{mouse.x=-999;mouse.y=-999});
+window.addEventListener('resize',resize);
+init();draw();
+</script>
